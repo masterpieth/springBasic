@@ -7,7 +7,7 @@
 	</typeAliases>
 	
 	<mappers>
-	
+		<mapper resource="mapper/users.xml"/>
 	</mappers>
 
 </configuration>

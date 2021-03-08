@@ -35,4 +35,7 @@
 		</authentication-provider>
 	</authentication-manager>
 	
+	<!-- 비밀번호 모듈 지정 -->
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
 </beans:beans>

@@ -8,18 +8,21 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 		
 	<http use-expressions="true">
-		<intercept-url pattern="/login/loginForm.do" access="permitAll"/>
-		<intercept-url pattern="/home.do" access="permitAll"/>
+		<intercept-url pattern="/" access="permitAll"/>
+		<intercept-url pattern="/login/loginForm" access="permitAll"/>
 		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
 		<intercept-url pattern="/**" access="hasAnyRole('USER, ADMIN')"/>
 		
 		<form-login login-page="/login/loginForm"
-			default-target-url="/home"
-			authentication-failure-url=""
-		/>
+			default-target-url="/"
+			authentication-failure-url="/login/loginForm?error"
+			username-parameter="id"
+			password-parameter="password"/>
 		
+		<logout logout-url="/logout" logout-success-url="/"/>
 		
-		<logout logout-url="/logout"/>
+		<access-denied-handler error-page="/login/accessDenied"/>
+		
 		<csrf disabled="true"/>
 	</http>
 	
@@ -27,6 +30,7 @@
 		<authentication-provider>
 			<user-service>
 				<user name="user" password="password" authorities="ROLE_USER"/>
+				<user name="admin" password="password" authorities="ROLE_ADMIN"/>
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>

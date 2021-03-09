@@ -1,5 +1,8 @@
 package com.basic.basic.dao;
 
-public interface UserDAO {
+import java.util.HashMap;
+import java.util.List;
 
+public interface UserDAO {
+	List<HashMap<String, Object>> selectUsers(HashMap<String, Object> params);
 }

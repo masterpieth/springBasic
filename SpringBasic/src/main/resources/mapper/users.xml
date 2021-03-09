@@ -2,4 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.basic.basic.dao.UserDAO">
 
+	<select id="selectUsers" parameterType="hashmap" resultType="hashmap">
+		SELECT 
+			U.USERNAME
+			, U.PASSWORD
+			, U.ENABLED
+			, A.AUTHORITY 
+		FROM 
+			USERS U 
+		LEFT JOIN 
+			AUTHORITIES A 
+		ON U.USERNAME = A.USERNAME
+		WHERE
+			1=1
+		<if test="username != null and username !=''">
+			AND
+				U.USERNAME = #{username}
+		</if>
+		<if test="password != null and password !=''">
+			AND
+				U.PASSWORD = #{password}
+		</if>
+	</select>
 </mapper>

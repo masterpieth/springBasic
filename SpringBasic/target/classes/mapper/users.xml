@@ -23,6 +23,8 @@
 			AND
 				U.PASSWORD = #{password}
 		</if>
+		ORDER BY
+			U.USERNAME
 		<include refid="common.sql.footer"/>
 	</select>
 </mapper>

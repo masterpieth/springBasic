@@ -28,6 +28,9 @@
 			<a href="<c:url value="/intro/introduction"/>">소개 페이지</a>
 		</li>
 		<li>
+			<a href="<c:url value="/intro/board"/>">페이징 복기</a>
+		</li>
+		<li>
 			<a href="<c:url value="/admin/adminHome"/>">관리자 홈</a>
 		</li>
 	</ul>

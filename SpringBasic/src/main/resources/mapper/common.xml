@@ -4,6 +4,6 @@
 
 	<sql id="footer">
 		LIMIT
-			#{startPage}, #{perPageNum}
+			#{startRows}, #{perPageNum}
 	</sql>
 </mapper>

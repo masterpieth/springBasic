@@ -23,5 +23,6 @@
 			AND
 				U.PASSWORD = #{password}
 		</if>
+		<include refid="common.sql.footer"/>
 	</select>
 </mapper>

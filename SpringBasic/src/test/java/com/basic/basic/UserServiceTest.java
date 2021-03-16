@@ -47,7 +47,8 @@ public class UserServiceTest {
 	public void selectUser() {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("username", "user1");
-		
+		params.put("startPage", 0);
+		params.put("perPageNum", 10);
 		HashMap<String, Object> userInfo = userService.selectUsers(params).get(0);
 		
 		assertThat(users.get(0).get("USERNAME"), is(userInfo.get("USERNAME")));

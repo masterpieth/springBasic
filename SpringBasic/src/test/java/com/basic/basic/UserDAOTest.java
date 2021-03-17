@@ -25,4 +25,5 @@ public class UserDAOTest {
 	public void userDAOExists() {
 		assertThat(userDAO, not(nullValue()));
 	}
+
 }

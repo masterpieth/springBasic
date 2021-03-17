@@ -23,8 +23,34 @@
 			AND
 				U.PASSWORD = #{password}
 		</if>
+		<if test="detail != null and detail !=''">
+			AND
+				U.USERNAME = #{detail}
+		</if>
 		ORDER BY
 			U.USERNAME
-		<include refid="common.sql.footer"/>
+		<if test="startRows != null">
+			<include refid="common.sql.footer"/>
+		</if>
+	</select>
+	
+	<select id="selectUsersTotalCount" parameterType="hashmap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			USERS U
+		LEFT JOIN 
+			AUTHORITIES A 
+		ON U.USERNAME = A.USERNAME
+		WHERE
+			1=1
+		<if test="username != null and username !=''">
+			AND
+				U.USERNAME = #{username}
+		</if>
+		<if test="password != null and password !=''">
+			AND
+				U.PASSWORD = #{password}
+		</if>
 	</select>
 </mapper>

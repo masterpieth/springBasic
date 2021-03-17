@@ -17,4 +17,8 @@ public class UserService {
 	public List<HashMap<String, Object>> selectUsers(HashMap<String, Object> params) {
 		return userDAO.selectUsers(params);
 	}
+	
+	public int selectUsersTotalCount(HashMap<String, Object> params) {
+		return userDAO.selectUsersTotalCount(params);
+	}
 }

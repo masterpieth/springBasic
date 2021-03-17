@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.basic.basic.service.UserService;
 import com.basic.basic.util.Criteria;
+import com.basic.basic.util.PageMaker;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
@@ -104,5 +105,63 @@ public class UserServiceTest {
 		
 		assertThat(userListCri2.size(), is(10));
 		assertThat(allUserList.get(10), is(userListCri2.get(0)));
+	}
+	@Test
+	public void selectUsersTotalCntTest() {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		
+		int userCnt = userService.selectUsersTotalCount(params);
+		assertThat(userCnt, is(59));
+		
+		params.put("username", "user1");
+		
+		userCnt = userService.selectUsersTotalCount(params);
+		
+		assertThat(userCnt, is(1));
+	}
+	@Test
+	public void pageMakerTest() {
+		int curPage = 1;
+		int perPageNum = 10;
+		int navPageNum = 10;
+		
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		
+		Criteria cri = new Criteria(curPage, perPageNum);
+		
+		params.put("startRows", cri.getStartRows());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		int totalCount = 59;
+		
+		//전체페이지가 10페이지가 안될때
+		PageMaker pm = new PageMaker(cri, totalCount, navPageNum);
+		
+		assertThat(pm.getEndPage(), is(6));
+		assertThat(pm.isNext(), is(false));
+		assertThat(pm.isPrev(), is(false));
+		
+		//전체 페이지가 10페이지가 넘어갈때(curPage는 1)
+		totalCount = 135;
+		
+		pm = new PageMaker(cri, totalCount, navPageNum);
+		
+		assertThat(pm.getEndPage(), is(10));
+		assertThat(pm.isNext(), is(true));
+		
+		//13페이지를 클릭했을 때
+		curPage = 13;
+		
+		cri = new Criteria(curPage, perPageNum);
+		
+		params.put("startRows", cri.getStartRows());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		pm = new PageMaker(cri, totalCount, navPageNum);
+		
+		assertThat(pm.getEndPage(), is(14));
+		assertThat(pm.getStartPage(), is(11));
+		assertThat(pm.isNext(), is(false));
+		assertThat(pm.isPrev(), is(true));
 	}
 }

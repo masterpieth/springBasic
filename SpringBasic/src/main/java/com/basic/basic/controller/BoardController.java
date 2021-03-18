@@ -9,10 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.basic.basic.service.UserService;
 import com.basic.basic.util.Criteria;
 import com.basic.basic.util.PageMaker;
+import com.google.gson.Gson;
 
 @Controller
 public class BoardController {
@@ -25,10 +27,10 @@ public class BoardController {
 	@RequestMapping(value = "/intro/board", method = {RequestMethod.GET, RequestMethod.POST})
 	public String board(@RequestParam HashMap<String, Object> params, Model model) {
 		
-		Criteria cri;
-		PageMaker pm;
+		Criteria cri = null;
+		PageMaker pm = null;
 		
-		List<HashMap<String, Object>> userList;
+		List<HashMap<String, Object>> userList = null;
 		
 		int totalCount = 0;
 		
@@ -67,8 +69,8 @@ public class BoardController {
 		
 		model.addAttribute("search", params);
 		
-		List<HashMap<String, Object>> userList;
-		HashMap<String, Object> userInfo;
+		List<HashMap<String, Object>> userList = null;
+		HashMap<String, Object> userInfo = null;
 		try {
 			userList = userService.selectUsers(params);
 			userInfo = userList.get(0);
@@ -79,5 +81,50 @@ public class BoardController {
 		}
 		
 		return "/intro/boardDetail";
+	}
+	
+	//페이지 이동 컨트롤러
+	@RequestMapping(value = "/intro/boardJsVer", method = RequestMethod.GET)
+	public String boardJsVer(@RequestParam HashMap<String, Object> params) {
+		return "/intro/boardJsVer";
+	}
+	//리스트 데이터 컨트롤러
+	@ResponseBody
+	@RequestMapping(value = "/intro/boardList", method = RequestMethod.POST)
+	public Object boardList(@RequestParam HashMap<String, Object> params, Model model) {
+		
+		model.addAttribute("search", params);
+		
+		Criteria cri;
+		List<HashMap<String, Object>> userList = null;
+		int totalCount = 0;
+		
+		HashMap<String, Object> pagination = new HashMap<String, Object>();
+		
+		if(params.get("startPage") != null) {
+			int startPage = Integer.parseInt((String)params.get("startPage"));
+			int perPageNum = Integer.parseInt((String)params.get("perPageNum"));
+			
+			cri = new Criteria(startPage, perPageNum);
+		} else {
+			cri = new Criteria();
+		}
+		
+		try {
+			params.put("startRows", cri.getStartRows());
+			params.put("perPageNum", cri.getPerPageNum());
+			
+			userList = userService.selectUsers(params);
+			
+			totalCount = userService.selectUsersTotalCount(params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		pagination.put("totalCount", totalCount);
+		pagination.put("dataList", userList);
+		
+		return pagination;
 	}
 }

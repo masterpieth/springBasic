@@ -85,7 +85,7 @@ public class BoardController {
 	
 	//페이지 이동 컨트롤러
 	@RequestMapping(value = "/intro/boardJsVer", method = RequestMethod.GET)
-	public String boardJsVer(@RequestParam HashMap<String, Object> params) {
+	public String boardJsVer() {
 		return "/intro/boardJsVer";
 	}
 	//리스트 데이터 컨트롤러
@@ -125,6 +125,50 @@ public class BoardController {
 		pagination.put("totalCount", totalCount);
 		pagination.put("dataList", userList);
 		
+		return pagination;
+	}
+	
+	@RequestMapping(value = "/intro/boardAngularVer", method = RequestMethod.GET)
+	public String boardAngularVer() {
+		return "/intro/boardAngularVer";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/intro/AngBoardList", method = RequestMethod.POST)
+	public Object AngBoardList(@RequestParam HashMap<String, Object> params, Model model) {
+		Criteria cri = null;
+		PageMaker pm = null;
+		
+		List<HashMap<String, Object>> userList = null;
+		HashMap<String, Object> pagination = null;
+		int totalCount = 0;
+		
+		if(params.get("curPage") != null) {
+			int curPage = Integer.parseInt((String)params.get("curPage"));
+			int perPageNum = Integer.parseInt((String)params.get("perPageNum"));
+			
+			cri = new Criteria(curPage, perPageNum);
+		} else {
+			cri = new Criteria();
+		}
+		
+		try {
+			totalCount = userService.selectUsersTotalCount(params);
+			
+			pm = new PageMaker(cri, totalCount, NAV_PAGE_NUM);
+			
+			params.put("startRows", pm.getCri().getStartRows());
+			params.put("perPageNum", pm.getCri().getPerPageNum());
+			
+			userList = userService.selectUsers(params);
+			
+			pagination = new HashMap<String, Object>();
+			pagination.put("pageMaker", pm);
+			pagination.put("userList", userList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return  "오류가 발생했습니다.";
+		}
 		return pagination;
 	}
 }

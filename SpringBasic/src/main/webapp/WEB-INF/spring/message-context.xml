@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+	<!-- Message 리로딩 처리 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<!-- classpath 아래의 messages 디렉터리 안의 messages_언어.properties를 찾는다 -->
+				<value>classpath:/messages/messages</value>
+			</list>
+		</property>
+		<!-- 언어셋 파일의 기본 인코딩 -->
+		<property name="defaultEncoding" value="UTF-8"/>
+		<!-- properties 캐시를 확인하는 주기 -->
+		<property name="cacheSeconds" value="300"/>
+	</bean>
+	<!-- 언어셋을 세션에 유지 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="ko"/>
+	</bean>
+</beans>

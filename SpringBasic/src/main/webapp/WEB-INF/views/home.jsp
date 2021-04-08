@@ -35,7 +35,7 @@
 		$scope.changeLang = function () {
 			$http({
 				method: 'GET',
-				url: '<c:url value="/changeLang"/>',
+				url: '<c:url value="/language"/>',
 				params : {'lang' : $scope.lang}
 			}).then(function successCallback(response) {
 				$window.location.reload();

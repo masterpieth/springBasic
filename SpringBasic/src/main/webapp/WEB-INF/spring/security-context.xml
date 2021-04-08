@@ -9,6 +9,7 @@
 		
 	<http use-expressions="true">
 		<intercept-url pattern="/" access="permitAll"/>
+		<intercept-url pattern="/language" access="permitAll"/>
 		<intercept-url pattern="/login/loginForm" access="permitAll"/>
 		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
 		<intercept-url pattern="/**" access="hasAnyRole('USER, ADMIN')"/>

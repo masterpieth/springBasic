@@ -35,7 +35,7 @@ public class MainController {
 		return "/intro/introduction";
 	}
 	
-	@RequestMapping(value = "/changeLang", method = RequestMethod.GET)
+	@RequestMapping(value = "/language", method = RequestMethod.GET)
 	public String changeLang(HttpServletRequest request, HttpServletResponse response, String lang) {
 		LocaleUtil.setLocale(request, response, lang);
 		return "redirect:/";

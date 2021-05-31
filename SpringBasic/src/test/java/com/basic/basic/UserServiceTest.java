@@ -18,8 +18,8 @@ import com.basic.basic.service.UserService;
 import com.basic.basic.util.Criteria;
 import com.basic.basic.util.PageMaker;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 public class UserServiceTest {
 	
 	@Autowired
